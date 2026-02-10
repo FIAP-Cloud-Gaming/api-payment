@@ -37,7 +37,7 @@ public sealed class PaymentContextTests
         using var context = PaymentContextFactory.Create();
 
         // Act
-        var result = await context.SaveEntitiesAsync(CancellationToken.None);
+        var result = await context.SaveEntitiesAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.Should().BeTrue();
@@ -55,11 +55,11 @@ public sealed class PaymentContextTests
 
         // Act
         context.Payments.Add(payment);
-        await context.SaveEntitiesAsync(CancellationToken.None);
+        await context.SaveEntitiesAsync(TestContext.Current.CancellationToken);
 
         // Assert - Verifica que o pagamento foi persistido
         var savedPayment = await context.Payments
-            .FirstOrDefaultAsync(p => p.OrderId == "ORDER-PERSIST-001");
+            .FirstOrDefaultAsync(p => p.OrderId == "ORDER-PERSIST-001", TestContext.Current.CancellationToken);
 
         savedPayment.Should().NotBeNull();
         savedPayment!.UserId.Should().Be("USER-PERSIST-001");
@@ -136,7 +136,7 @@ public sealed class PaymentContextTests
         context.Payments.Add(payment);
 
         // Act
-        var result = await context.SaveEntitiesAsync(CancellationToken.None);
+        var result = await context.SaveEntitiesAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.Should().BeTrue();
@@ -157,10 +157,10 @@ public sealed class PaymentContextTests
 
         // Act
         context.Payments.AddRange(payment1, payment2, payment3);
-        await context.SaveEntitiesAsync(CancellationToken.None);
+        await context.SaveEntitiesAsync(TestContext.Current.CancellationToken);
 
         // Assert
-        var allPayments = await context.Payments.ToListAsync();
+        var allPayments = await context.Payments.ToListAsync(TestContext.Current.CancellationToken);
         allPayments.Should().HaveCount(3);
     }
 }

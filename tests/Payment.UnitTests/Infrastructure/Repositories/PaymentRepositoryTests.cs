@@ -81,12 +81,12 @@ public sealed class PaymentRepositoryTests
         );
 
         context.Payments.Add(payment);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         var paymentId = payment.Id;
 
         // Act
-        var retrievedPayment = await repository.GetByIdAsync(paymentId, CancellationToken.None);
+        var retrievedPayment = await repository.GetByIdAsync(paymentId, TestContext.Current.CancellationToken);
 
         // Assert
         retrievedPayment.Should().NotBeNull();
@@ -104,7 +104,7 @@ public sealed class PaymentRepositoryTests
         var nonExistentId = PaymentId.NewId();
 
         // Act
-        var retrievedPayment = await repository.GetByIdAsync(nonExistentId, CancellationToken.None);
+        var retrievedPayment = await repository.GetByIdAsync(nonExistentId, TestContext.Current.CancellationToken);
 
         // Assert
         retrievedPayment.Should().BeNull();
@@ -123,10 +123,10 @@ public sealed class PaymentRepositoryTests
         );
 
         context.Payments.Add(payment);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var retrievedPayment = await repository.GetByOrderIdAsync("ORDER-UNIQUE-12345", CancellationToken.None);
+        var retrievedPayment = await repository.GetByOrderIdAsync("ORDER-UNIQUE-12345", TestContext.Current.CancellationToken);
 
         // Assert
         retrievedPayment.Should().NotBeNull();
@@ -142,7 +142,7 @@ public sealed class PaymentRepositoryTests
         var repository = new PaymentRepository(context);
 
         // Act
-        var retrievedPayment = await repository.GetByOrderIdAsync("NON-EXISTENT-ORDER", CancellationToken.None);
+        var retrievedPayment = await repository.GetByOrderIdAsync("NON-EXISTENT-ORDER", TestContext.Current.CancellationToken);
 
         // Assert
         retrievedPayment.Should().BeNull();
@@ -160,10 +160,10 @@ public sealed class PaymentRepositoryTests
         var payment3 = PaymentTestFactory.CreateValidPayment("ORDER-USER-003", "USER-456");
 
         context.Payments.AddRange(payment1, payment2, payment3);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var userPayments = await repository.GetByUserIdAsync("USER-123", CancellationToken.None);
+        var userPayments = await repository.GetByUserIdAsync("USER-123", TestContext.Current.CancellationToken);
 
         // Assert
         userPayments.Should().NotBeNull();
@@ -180,7 +180,7 @@ public sealed class PaymentRepositoryTests
         var repository = new PaymentRepository(context);
 
         // Act
-        var userPayments = await repository.GetByUserIdAsync("NON-EXISTENT-USER", CancellationToken.None);
+        var userPayments = await repository.GetByUserIdAsync("NON-EXISTENT-USER", TestContext.Current.CancellationToken);
 
         // Assert
         userPayments.Should().NotBeNull();
@@ -199,10 +199,10 @@ public sealed class PaymentRepositoryTests
         var succeededPayment = PaymentTestFactory.CreateSucceededPayment("ORDER-STATUS-003", "USER-003");
 
         context.Payments.AddRange(pendingPayment1, pendingPayment2, succeededPayment);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var pendingPayments = await repository.GetByStatusAsync(PaymentStatus.Pending, CancellationToken.None);
+        var pendingPayments = await repository.GetByStatusAsync(PaymentStatus.Pending, TestContext.Current.CancellationToken);
 
         // Assert
         pendingPayments.Should().NotBeNull();
@@ -220,10 +220,10 @@ public sealed class PaymentRepositoryTests
 
         var pendingPayment = PaymentTestFactory.CreateValidPayment("ORDER-001", "USER-001");
         context.Payments.Add(pendingPayment);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var refundedPayments = await repository.GetByStatusAsync(PaymentStatus.Refunded, CancellationToken.None);
+        var refundedPayments = await repository.GetByStatusAsync(PaymentStatus.Refunded, TestContext.Current.CancellationToken);
 
         // Assert
         refundedPayments.Should().NotBeNull();
@@ -242,10 +242,10 @@ public sealed class PaymentRepositoryTests
         var payment3 = PaymentTestFactory.CreateSucceededPayment("ORDER-ALL-003", "USER-003");
 
         context.Payments.AddRange(payment1, payment2, payment3);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var allPayments = await repository.GetAllAsync(CancellationToken.None);
+        var allPayments = await repository.GetAllAsync(TestContext.Current.CancellationToken);
 
         // Assert
         allPayments.Should().NotBeNull();
@@ -261,7 +261,7 @@ public sealed class PaymentRepositoryTests
         var repository = new PaymentRepository(context);
 
         // Act
-        var allPayments = await repository.GetAllAsync(CancellationToken.None);
+        var allPayments = await repository.GetAllAsync(TestContext.Current.CancellationToken);
 
         // Assert
         allPayments.Should().NotBeNull();
@@ -284,10 +284,10 @@ public sealed class PaymentRepositoryTests
         var recentPayment = PaymentTestFactory.CreateValidPayment("ORDER-RECENT-001", "USER-RECENT-001");
 
         context.Payments.AddRange(oldPayment, recentPayment);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var oldPendingPayments = await repository.GetPendingPaymentsOlderThanAsync(30, CancellationToken.None);
+        var oldPendingPayments = await repository.GetPendingPaymentsOlderThanAsync(30, TestContext.Current.CancellationToken);
 
         // Assert
         oldPendingPayments.Should().NotBeNull();
@@ -304,10 +304,10 @@ public sealed class PaymentRepositoryTests
 
         var recentPayment = PaymentTestFactory.CreateValidPayment("ORDER-RECENT", "USER-RECENT");
         context.Payments.Add(recentPayment);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var oldPendingPayments = await repository.GetPendingPaymentsOlderThanAsync(30, CancellationToken.None);
+        var oldPendingPayments = await repository.GetPendingPaymentsOlderThanAsync(30, TestContext.Current.CancellationToken);
 
         // Assert
         oldPendingPayments.Should().NotBeNull();
@@ -338,16 +338,16 @@ public sealed class PaymentRepositoryTests
             cancelledPayment,
             refundedPayment
         );
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Assert - Verifica queries específicas
-        var userPayments = await repository.GetByUserIdAsync("USER-COMPLEX", CancellationToken.None);
+        var userPayments = await repository.GetByUserIdAsync("USER-COMPLEX", TestContext.Current.CancellationToken);
         userPayments.Should().HaveCount(3);
 
-        var succeededPayments = await repository.GetByStatusAsync(PaymentStatus.Succeeded, CancellationToken.None);
+        var succeededPayments = await repository.GetByStatusAsync(PaymentStatus.Succeeded, TestContext.Current.CancellationToken);
         succeededPayments.Should().HaveCountGreaterThanOrEqualTo(1);
 
-        var allPayments = await repository.GetAllAsync(CancellationToken.None);
+        var allPayments = await repository.GetAllAsync(TestContext.Current.CancellationToken);
         allPayments.Should().HaveCount(6);
     }
 }
