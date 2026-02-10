@@ -1,0 +1,32 @@
+namespace Payment.Infrastructure;
+
+/// <remark>
+/// dotnet ef migrations add --startup-project ..\Payment.API --context PaymentContext [migration-name]
+/// </remark>
+public class PaymentContext(DbContextOptions<PaymentContext> options, IMediator mediator)
+    : DbContext(options), IUnitOfWork, INotificationContext
+{
+    public DbSet<Domain.AggregatesModel.PaymentAggregate.Payment> Payments { get; set; } = null!;
+    public DbSet<PaymentItem> PaymentItems { get; set; } = null!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.HasDefaultSchema("payment");
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PaymentContext).Assembly);
+    }
+
+    public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+    {
+        await mediator.DispatchNotificationsAsync(this, cancellationToken);
+
+        await base.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
+    public IEnumerable<EntityWithNotification> GetEntitiesWithNotifications()
+        => [.. ChangeTracker
+            .Entries<EntityWithNotification>()
+            .Where(entry => entry.Entity.Notifications.Count != 0)
+            .Select(entry => entry.Entity)];
+}

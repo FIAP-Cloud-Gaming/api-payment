@@ -1,0 +1,116 @@
+name: fcg-payment
+
+services:
+  postgres:
+    image: postgres:18.1-alpine
+    container_name: fcg-payment-postgres
+    environment:
+      POSTGRES_DB: payment_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - fcg-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  elasticsearch:
+    image: elasticsearch:9.0.2
+    container_name: fcg-payment-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - fcg-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  jaeger:
+    image: jaegertracing/jaeger:latest
+    container_name: fcg-payment-jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - fcg-network
+
+  loki:
+    image: grafana/loki:latest
+    container_name: fcg-payment-loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - fcg-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: fcg-payment-promtail
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./promtail-config.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - fcg-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: fcg-payment-grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - loki
+      - jaeger
+    networks:
+      - fcg-network
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+
+  payment.api:
+    image: ${DOCKER_REGISTRY:-fcg}/payment.api:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/Payment.API/Dockerfile
+    container_name: fcg-payment-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      jaeger:
+        condition: service_started
+    networks:
+      - fcg-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  fcg-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  elasticsearch-data:
+  grafana-data:

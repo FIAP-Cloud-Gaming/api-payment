@@ -1,0 +1,35 @@
+<Solution>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/ci-cd.yml" />
+  </Folder>
+  <Folder Name="/grafana/">
+    <File Path="grafana/README.md" />
+  </Folder>
+  <Folder Name="/grafana/provisioning/" />
+  <Folder Name="/grafana/provisioning/dashboards/">
+    <File Path="grafana/provisioning/dashboards/payment-api-dashboard.json" />
+    <File Path="grafana/provisioning/dashboards/dashboards.yml" />
+  </Folder>
+  <Folder Name="/grafana/provisioning/datasources/">
+    <File Path="grafana/provisioning/datasources/datasources.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Payment.API/Payment.API.csproj" />
+    <Project Path="src/Payment.Domain/Payment.Domain.csproj" />
+    <Project Path="src/Payment.Infrastructure/Payment.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Payment.UnitTests/Payment.UnitTests.csproj" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+</Solution>
