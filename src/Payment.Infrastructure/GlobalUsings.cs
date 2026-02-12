@@ -10,6 +10,10 @@ global using Payment.Domain.Events;
 global using Payment.Infrastructure.IntegrationEvents.Events;
 
 global using Core.SeedWork;
+
+global using EventBus.Abstractions;
+global using EventBus.Events;
+
 global using Mediator;
 global using Mediator.Extensions;
 global using Mediator.Notifications;

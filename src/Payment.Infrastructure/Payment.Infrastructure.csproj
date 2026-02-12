@@ -7,7 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- PostgreSQL + EF Core -->
+		<!-- FCG Packages -->
+		<PackageReference Include="FiapCloudGaming.EventBus" />
 		<PackageReference Include="FiapCloudGaming.Mediator" />
 		<PackageReference Include="FiapCloudGaming.SeedWork" />
 		<PackageReference Include="FiapCloudGaming.ServiceDefaults" />

@@ -1,3 +1,5 @@
+using EventBusRabbitMQ;
+
 namespace Payment.API.Extensions;
 
 internal static class ApplicationExtensions
@@ -30,6 +32,13 @@ internal static class ApplicationExtensions
                 tags: ["db", "postgres", "ready"]);
 
         return services;
+    }
+
+    public static IHostApplicationBuilder ConfigureEventBus(this IHostApplicationBuilder builder)
+    {
+        builder.AddRabbitMqEventBus(builder.Configuration.GetConnectionString("RabbitMQ")!, "payment-service");
+
+        return builder;
     }
 
     public static IHostApplicationBuilder ConfigurePaymentSerilog(this IHostApplicationBuilder builder)

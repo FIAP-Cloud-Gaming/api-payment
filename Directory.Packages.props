@@ -4,6 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- FCG Packages -->
+    <PackageVersion Include="FiapCloudGaming.EventBus" Version="1.0.0" />
+    <PackageVersion Include="FiapCloudGaming.EventBusRabbitMQ" Version="1.0.0" />
     <PackageVersion Include="FiapCloudGaming.Mediator" Version="1.0.0" />
     <PackageVersion Include="FiapCloudGaming.SeedWork" Version="1.0.0" />
     <PackageVersion Include="FiapCloudGaming.ServiceDefaults" Version="1.0.0" />

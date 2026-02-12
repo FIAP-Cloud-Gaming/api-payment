@@ -28,6 +28,11 @@ services:
     ports:
       - "3000:3000"
 
+  rabbitmq:
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
 # ======================================
 # Payment API (DEV Ports + Env)
 # ======================================
@@ -41,5 +46,6 @@ services:
       - JwtSettings__Secret=your-super-secret-key-min-32-chars-long-for-development-only
       - JwtSettings__Issuer=fcg-identity-api
       - JwtSettings__Audience=fcg-services
+      - ConnectionStrings__RabbitMQ=amqp://guest:guest@rabbitmq:5672
       - Loki__Uri=http://loki:3100
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317

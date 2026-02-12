@@ -30,6 +30,9 @@ global using Mediator.Behaviors;
 
 global using Core.SeedWork;
 
+global using EventBus.Abstractions;
+global using EventBus.Events;
+
 global using FluentValidation;
 global using FluentValidation.Results;
 

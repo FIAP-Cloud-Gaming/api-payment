@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigurePaymentSerilog();
 builder.ConfigureOpenTelemetry();
+builder.ConfigureEventBus();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 

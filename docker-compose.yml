@@ -84,6 +84,22 @@ services:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
 
+  rabbitmq:
+    image: rabbitmq:4.1-management-alpine
+    container_name: fcg-payment-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - fcg-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   payment.api:
     image: ${DOCKER_REGISTRY:-fcg}/payment.api:${TAG:-latest}
     build:
@@ -94,6 +110,8 @@ services:
       postgres:
         condition: service_healthy
       elasticsearch:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
       jaeger:
         condition: service_started
@@ -113,4 +131,5 @@ networks:
 volumes:
   postgres-data:
   elasticsearch-data:
+  rabbitmq-data:
   grafana-data:

@@ -3,7 +3,7 @@ namespace Payment.Infrastructure.IntegrationEvents.Events;
 /// <summary>
 /// Integration event published when a payment fails
 /// </summary>
-public record PaymentFailedIntegrationEvent
+public record PaymentFailedIntegrationEvent : IntegrationEvent
 {
     public Guid PaymentId { get; init; }
     public string OrderId { get; init; } = default!;

@@ -1,6 +1,6 @@
 namespace Payment.Infrastructure.IntegrationEvents.Events;
 
-public record PaymentSucceededIntegrationEvent
+public record PaymentSucceededIntegrationEvent : IntegrationEvent
 {
     public Guid PaymentId { get; init; }
     public string OrderId { get; init; } = default!;
