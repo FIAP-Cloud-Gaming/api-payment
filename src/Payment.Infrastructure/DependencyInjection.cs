@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Payment.Infrastructure.IntegrationEvents;
 using Payment.Infrastructure.Repositories;
 using System.Text;
 
@@ -28,6 +29,7 @@ public static class DependencyInjection
                 warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
 
         services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<IIntegrationEventLogService, IntegrationEventLogService>();
 
         return services;
     }

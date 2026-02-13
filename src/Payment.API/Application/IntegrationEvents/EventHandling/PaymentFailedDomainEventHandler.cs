@@ -1,4 +1,4 @@
-namespace Payment.Infrastructure.IntegrationEvents.EventHandling;
+namespace Payment.API.Application.IntegrationEvents.EventHandling;
 
 public class PaymentFailedDomainEventHandler(
     IEventBus eventBus,

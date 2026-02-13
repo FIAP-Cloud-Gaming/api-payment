@@ -1,4 +1,4 @@
-using Payment.Infrastructure.IntegrationEvents.EventHandling;
+using Payment.API.Application.IntegrationEvents.EventHandling;
 using Payment.UnitTests.Helpers;
 
 namespace Payment.UnitTests.Infrastructure.IntegrationEvents;

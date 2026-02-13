@@ -26,9 +26,13 @@ global using Payment.Infrastructure;
 
 global using Payment.API.Application.Models;
 global using Payment.API.Application.Behaviors;
+global using Payment.API.Application.IntegrationEvents.Events;
 
 global using Elastic.Serilog.Sinks;
 
 global using Serilog;
 
 global using Scalar.AspNetCore;
+
+global using EventBus.Events;
+global using EventBus.Abstractions;

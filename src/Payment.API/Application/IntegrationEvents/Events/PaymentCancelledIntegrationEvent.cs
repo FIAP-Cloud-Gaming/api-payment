@@ -1,4 +1,4 @@
-namespace Payment.Infrastructure.IntegrationEvents.Events;
+namespace Payment.API.Application.IntegrationEvents.Events;
 
 public record PaymentCancelledIntegrationEvent : IntegrationEvent
 {

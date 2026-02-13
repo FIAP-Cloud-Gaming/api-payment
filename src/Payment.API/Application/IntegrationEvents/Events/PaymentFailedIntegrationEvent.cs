@@ -1,4 +1,4 @@
-namespace Payment.Infrastructure.IntegrationEvents.Events;
+namespace Payment.API.Application.IntegrationEvents.Events;
 
 /// <summary>
 /// Integration event published when a payment fails
