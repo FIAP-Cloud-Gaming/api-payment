@@ -1,7 +1,7 @@
 namespace Payment.API.Application.IntegrationEvents.EventHandling;
 
 public class PaymentRefundedDomainEventHandler(
-    IEventBus eventBus,
+    IPaymentIntegrationEventService integrationEventService,
     ILogger<PaymentRefundedDomainEventHandler> logger)
     : INotificationHandler<PaymentRefundedDomainEvent>
 {
@@ -24,6 +24,6 @@ public class PaymentRefundedDomainEventHandler(
             RefundedAt = domainEvent.Payment.UpdatedAt!.Value
         };
 
-        await eventBus.PublishAsync(integrationEvent);
+        await integrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

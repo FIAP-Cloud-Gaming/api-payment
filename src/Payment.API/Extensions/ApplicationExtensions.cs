@@ -1,4 +1,7 @@
+using EventBus.Extensions;
 using EventBusRabbitMQ;
+using Payment.API.Application.IntegrationEvents;
+using Payment.API.Application.IntegrationEvents.EventHandling;
 
 namespace Payment.API.Extensions;
 
@@ -10,11 +13,15 @@ internal static class ApplicationExtensions
 
         services.AddMediator(assembly);
 
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+        services.AddScoped(typeof(IPipelineBehavior<>), typeof(TransactionBehavior<>));
         services.AddScoped(typeof(IPipelineBehavior<>), typeof(LoggingBehavior<>));
         services.AddScoped(typeof(IPipelineBehavior<>), typeof(ValidationBehavior<>));
+
+        services.AddScoped<IPaymentIntegrationEventService, PaymentIntegrationEventService>();
 
         return services;
     }

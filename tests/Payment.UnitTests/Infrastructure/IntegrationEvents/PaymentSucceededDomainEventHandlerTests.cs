@@ -9,15 +9,15 @@ namespace Payment.UnitTests.Infrastructure.IntegrationEvents;
 /// </summary>
 public sealed class PaymentSucceededDomainEventHandlerTests
 {
-    private readonly IEventBus _eventBus;
+    private readonly IPaymentIntegrationEventService _integrationEventService;
     private readonly ILogger<PaymentSucceededDomainEventHandler> _logger;
     private readonly PaymentSucceededDomainEventHandler _handler;
 
     public PaymentSucceededDomainEventHandlerTests()
     {
-        _eventBus = Substitute.For<IEventBus>();
+        _integrationEventService = Substitute.For<IPaymentIntegrationEventService>();
         _logger = Substitute.For<ILogger<PaymentSucceededDomainEventHandler>>();
-        _handler = new PaymentSucceededDomainEventHandler(_eventBus, _logger);
+        _handler = new PaymentSucceededDomainEventHandler(_integrationEventService, _logger);
     }
 
     [Fact]

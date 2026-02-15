@@ -9,15 +9,15 @@ namespace Payment.UnitTests.Infrastructure.IntegrationEvents;
 /// </summary>
 public sealed class PaymentRefundedDomainEventHandlerTests
 {
-    private readonly IEventBus _eventBus;
+    private readonly IPaymentIntegrationEventService _integrationEventService;
     private readonly ILogger<PaymentRefundedDomainEventHandler> _logger;
     private readonly PaymentRefundedDomainEventHandler _handler;
 
     public PaymentRefundedDomainEventHandlerTests()
     {
-        _eventBus = Substitute.For<IEventBus>();
+        _integrationEventService = Substitute.For<IPaymentIntegrationEventService>();
         _logger = Substitute.For<ILogger<PaymentRefundedDomainEventHandler>>();
-        _handler = new PaymentRefundedDomainEventHandler(_eventBus, _logger);
+        _handler = new PaymentRefundedDomainEventHandler(_integrationEventService, _logger);
     }
 
     [Fact]
@@ -193,7 +193,7 @@ public sealed class PaymentRefundedDomainEventHandlerTests
     public async Task Handle_ConsecutiveRefunds_ShouldHandleAllSuccessfully()
     {
         // Arrange
-        var handler = new PaymentRefundedDomainEventHandler(_eventBus, _logger);
+        var handler = new PaymentRefundedDomainEventHandler(_integrationEventService, _logger);
         var payment1 = PaymentTestFactory.CreateRefundedPayment();
         var payment2 = PaymentTestFactory.CreateRefundedPayment();
 

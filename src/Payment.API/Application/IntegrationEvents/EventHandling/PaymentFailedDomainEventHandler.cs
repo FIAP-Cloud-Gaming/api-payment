@@ -1,7 +1,7 @@
 namespace Payment.API.Application.IntegrationEvents.EventHandling;
 
 public class PaymentFailedDomainEventHandler(
-    IEventBus eventBus,
+    IPaymentIntegrationEventService integrationEventService,
     ILogger<PaymentFailedDomainEventHandler> logger)
     : INotificationHandler<PaymentFailedDomainEvent>
 {
@@ -23,6 +23,6 @@ public class PaymentFailedDomainEventHandler(
             FailedAt = domainEvent.Payment.ProcessedAt!.Value
         };
 
-        await eventBus.PublishAsync(integrationEvent);
+        await integrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

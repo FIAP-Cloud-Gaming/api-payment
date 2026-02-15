@@ -1,7 +1,7 @@
 namespace Payment.API.Application.IntegrationEvents.EventHandling;
 
 public class PaymentStartedDomainEventHandler(
-    IEventBus eventBus,
+    IPaymentIntegrationEventService integrationEventService,
     ILogger<PaymentStartedDomainEventHandler> logger)
     : INotificationHandler<PaymentStartedDomainEvent>
 {
@@ -23,6 +23,6 @@ public class PaymentStartedDomainEventHandler(
             CreatedAt = domainEvent.Payment.CreatedAt
         };
 
-        await eventBus.PublishAsync(integrationEvent);
+        await integrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

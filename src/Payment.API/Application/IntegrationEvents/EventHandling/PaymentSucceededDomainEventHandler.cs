@@ -1,7 +1,7 @@
 namespace Payment.API.Application.IntegrationEvents.EventHandling;
 
 public class PaymentSucceededDomainEventHandler(
-    IEventBus eventBus,
+    IPaymentIntegrationEventService integrationEventService,
     ILogger<PaymentSucceededDomainEventHandler> logger)
     : INotificationHandler<PaymentSucceededDomainEvent>
 {
@@ -25,6 +25,6 @@ public class PaymentSucceededDomainEventHandler(
             ProcessedAt = domainEvent.Payment.ProcessedAt!.Value
         };
 
-        await eventBus.PublishAsync(integrationEvent);
+        await integrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

@@ -19,6 +19,7 @@ global using Payment.API.Application.Queries.GetPayment;
 global using Payment.API.Application.Queries.GetPaymentsByUser;
 global using Payment.API.Application.Queries.GetPaymentsByStatus;
 global using Payment.API.Application.Behaviors;
+global using Payment.API.Application.IntegrationEvents;
 global using Payment.API.Application.Models;
 global using Payment.API.Middleware;
 

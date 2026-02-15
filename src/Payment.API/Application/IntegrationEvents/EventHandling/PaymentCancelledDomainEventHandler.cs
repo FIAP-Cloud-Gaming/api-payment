@@ -1,7 +1,7 @@
 namespace Payment.API.Application.IntegrationEvents.EventHandling;
 
 public class PaymentCancelledDomainEventHandler(
-    IEventBus eventBus,
+    IPaymentIntegrationEventService integrationEventService,
     ILogger<PaymentCancelledDomainEventHandler> logger)
     : INotificationHandler<PaymentCancelledDomainEvent>
 {
@@ -22,6 +22,6 @@ public class PaymentCancelledDomainEventHandler(
             CancelledAt = domainEvent.Payment.ProcessedAt!.Value
         };
 
-        await eventBus.PublishAsync(integrationEvent);
+        await integrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }
