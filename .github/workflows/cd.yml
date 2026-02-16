@@ -10,7 +10,7 @@ on:
 env:
   DOTNET_VERSION: '10.0.x'
   CONFIGURATION: Release
-  IMAGE_NAME: Payment-api 
+  IMAGE_NAME: payment-api 
 
 jobs:
   build-and-test:
