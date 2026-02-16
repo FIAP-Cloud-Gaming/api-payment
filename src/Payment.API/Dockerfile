@@ -36,7 +36,7 @@ RUN dotnet publish src/Payment.API/Payment.API.csproj \
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS final
 
 LABEL org.opencontainers.image.title="Payment API" \
-      org.opencontainers.image.description="Autenticacao e registro de usuarios - FIAP Cloud Gaming" \
+      org.opencontainers.image.description="Processamento e gerenciamento de pagamentos - FIAP Cloud Gaming" \
       org.opencontainers.image.source="https://github.com/FIAP-Cloud-Gaming/Payment" \
       org.opencontainers.image.authors="Alessandro (DEV)" 
 
