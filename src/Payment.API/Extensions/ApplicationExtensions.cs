@@ -74,9 +74,13 @@ internal static class ApplicationExtensions
                     },
                     transport =>
                     {
-                        transport.Authentication(new Elastic.Transport.BasicAuthentication(
-                            builder.Configuration["Elasticsearch:Username"]!,
-                            builder.Configuration["Elasticsearch:Password"]!));
+                        var username = builder.Configuration["Elasticsearch:Username"];
+                        var password = builder.Configuration["Elasticsearch:Password"];
+
+                        if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+                        {
+                            transport.Authentication(new Elastic.Transport.BasicAuthentication(username, password));
+                        }
                     });
         });
 
