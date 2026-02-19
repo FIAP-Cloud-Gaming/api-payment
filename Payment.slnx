@@ -1,5 +1,4 @@
 <Solution>
-  <Folder Name="/.github/" />
   <Folder Name="/.github/workflows/">
     <File Path=".github/workflows/cd.yml" />
     <File Path=".github/workflows/ci.yml" />
@@ -7,7 +6,6 @@
   <Folder Name="/grafana/">
     <File Path="grafana/README.md" />
   </Folder>
-  <Folder Name="/grafana/provisioning/" />
   <Folder Name="/grafana/provisioning/dashboards/">
     <File Path="grafana/provisioning/dashboards/payment-api-dashboard.json" />
     <File Path="grafana/provisioning/dashboards/dashboards.yml" />
